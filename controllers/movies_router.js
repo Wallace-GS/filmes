@@ -1,5 +1,6 @@
 const moviesRouter = require('express').Router();
 const Movie = require('../models/movie');
+const User = require('../models/user');
 
 moviesRouter.get('/', async (request, response) => {
   const movies = await Movie.find({});
@@ -14,9 +15,20 @@ moviesRouter.get('/:id', async (request, response) => {
 });
 
 moviesRouter.post('/', async (request, response) => {
-  const movie = new Movie(request.body);
+  const body = request.body;
+  const user = await User.findById(request.body.userId);
+
+  const movie = new Movie({
+    title: body.title,
+    genre: body.genre,
+    score: body.score,
+    user: user._id,
+  });
 
   const saved = await movie.save();
+  user.movies = user.movies.concat(saved._id);
+  await user.save();
+
   response.json(saved.toJSON);
 });
 

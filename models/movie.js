@@ -6,6 +6,10 @@ const movieSchema = mongoose.Schema({
   title: { type: String, required: true },
   genre: { type: String },
   score: { type: Number },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
 });
 
 movieSchema.set('toJSON', {
