@@ -1,0 +1,8 @@
+{
+  "name": "filmes",
+  "version": "1.0.0",
+  "description": "Create your movie backlog and if you're feeling indecisive we'll pick one out for you!",
+  "main": "index.js",
+  "author": "Wallace Santos",
+  "license": "MIT"
+}
