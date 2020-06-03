@@ -6,6 +6,13 @@ moviesRouter.get('/', async (request, response) => {
   response.json(movies.map((movie) => movie.toJSON()));
 });
 
+moviesRouter.get('/:id', async (request, response) => {
+  const movie = await Movie.findById(request.params.id);
+
+  if (movie) response.json(movie.toJSON());
+  else response.status(404).end();
+});
+
 moviesRouter.post('/', async (request, response) => {
   const movie = new Movie(request.body);
 
@@ -19,9 +26,9 @@ moviesRouter.delete('/:id', async (request, response) => {
 });
 
 moviesRouter.put('/:id', async (request, response) => {
-  const blog = request.body;
+  const movie = request.body;
 
-  const updated = await Movie.findByIdAndUpdate(request.params.id, blog, {
+  const updated = await Movie.findByIdAndUpdate(request.params.id, movie, {
     new: true,
   });
   response.json(updated.toJSON);
