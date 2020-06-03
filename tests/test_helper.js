@@ -1,4 +1,5 @@
 const Movie = require('../models/movie');
+const User = require('../models/user');
 
 const initialMovies = [
   {
@@ -50,6 +51,11 @@ const moviesInDb = async () => {
   return movies.map((movie) => movie.toJSON());
 };
 
+const usersInDb = async () => {
+  const users = await User.find({});
+  return users.map((user) => user.toJSON());
+};
+
 const nonExistingId = async () => {
   const movie = new Movie({ title: 'lol' });
   await movie.save();
@@ -61,5 +67,6 @@ const nonExistingId = async () => {
 module.exports = {
   initialMovies,
   moviesInDb,
+  usersInDb,
   nonExistingId,
 };

@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const config = require('./utils/config');
 const logger = require('./utils/logger');
 const moviesRouter = require('./controllers/movies_router');
+const usersRouter = require('./controllers/users_router');
 const middleware = require('./utils/middleware');
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/movies', moviesRouter);
+app.use('/api/users', usersRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
