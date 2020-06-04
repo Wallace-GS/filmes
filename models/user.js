@@ -8,9 +8,11 @@ const userSchema = mongoose.Schema({
   username: {
     type: String,
     unique: true,
+    minlength: 3,
+    required: true,
   },
-  name: String,
-  passwordHash: String,
+  name: { type: String },
+  passwordHash: { type: String, required: true },
   movies: [
     {
       type: mongoose.Schema.Types.ObjectId,

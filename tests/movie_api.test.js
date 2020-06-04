@@ -113,7 +113,7 @@ describe('when movies are updated', () => {
   test('movies which are updated succesfully returns 200', async () => {
     const movies = await helper.moviesInDb();
     const movieToUpdate = movies[0];
-    movieToUpdate.title = 'Wars Stars';
+    movieToUpdate.score = 0;
 
     await api.put(`/api/movies/${movieToUpdate.id}`).expect(200);
 
