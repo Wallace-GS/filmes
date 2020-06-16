@@ -46,7 +46,10 @@ moviesRouter.delete('/:id', async (request, response) => {
   else if (decodedToken.id !== movie.user.toString())
     return response.status(401).json({ error: 'unauthorized access.' });
 
+  const user = await User.findById(decodedToken.id);
+  user.movies = user.movies.filter((movie) => movie != request.params.id);
   await Movie.findByIdAndRemove(request.params.id);
+
   response.status(204).end();
 });
 
