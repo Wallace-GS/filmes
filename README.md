@@ -8,3 +8,4 @@
 - [x] Set up server
 - [x] Implemented RESTful APIs for login, users and list of movies
 - [ ] Built frontend with React (In progress)
+- [ ] Styled app
