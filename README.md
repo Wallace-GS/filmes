@@ -1,4 +1,4 @@
-# filmes (In Progress)
+# filmes (In Progress) - front end: https://github.com/Wallace-GS/filmes-frontend
 
 ![logo](./filmes.png)
 
