@@ -9,7 +9,8 @@
   "private": false,
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "jest --verbose"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -18,6 +19,10 @@
     "mongoose": "^5.10.6"
   },
   "devDependencies": {
+    "jest": "^26.4.2",
     "nodemon": "^2.0.4"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

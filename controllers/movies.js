@@ -8,7 +8,12 @@ moviesRouter.get('/', (_, res) => {
 });
 
 moviesRouter.post('/', (req, res) => {
-  const movie = new Movie(req.body);
+  const body = req.body;
+  const movie = new Movie({
+    title: body.title,
+    url: body.url,
+    likes: body.likes || 0,
+  });
 
   movie.save().then((result) => {
     res.status(201).json(result);
