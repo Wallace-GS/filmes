@@ -9,6 +9,7 @@ moviesRouter.get('/', (_, res) => {
 
 moviesRouter.post('/', (req, res) => {
   const body = req.body;
+
   const movie = new Movie({
     title: body.title,
     url: body.url,
