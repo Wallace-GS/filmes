@@ -4,31 +4,30 @@ const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const blogSchema = new mongoose.Schema({
+const movieSchema = new mongoose.Schema({
   title: String,
-  author: String,
   url: String,
   likes: Number,
 });
 
-const Blog = mongoose.model('Blog', blogSchema);
+const Movie = mongoose.model('Movie', movieSchema);
 
-const mongoUrl = 'mongodb://localhost/bloglist';
+const mongoUrl = process.env.MONGODB_URI;
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/blogs', (request, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs);
+app.get('/api/movies', (request, response) => {
+  Movie.find({}).then((movies) => {
+    response.json(movies);
   });
 });
 
-app.post('/api/blogs', (request, response) => {
-  const blog = new Blog(request.body);
+app.post('/api/movies', (request, response) => {
+  const movie = new Movie(request.body);
 
-  blog.save().then((result) => {
+  movie.save().then((result) => {
     response.status(201).json(result);
   });
 });
