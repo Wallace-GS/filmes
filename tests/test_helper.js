@@ -1,27 +1,30 @@
 const Movie = require('../models/movie');
+const User = require('../models/user');
+
+const dummyUser = new User({
+  username: 'moviefan1',
+  name: 'Movie Fan',
+  password: 'password',
+});
 
 const initialMovies = [
   {
     title: 'Spiderman',
     url: 'spidey.com',
+    genre: 'genre',
     likes: 10,
+    user: dummyUser,
     id: '5f68a7fe426d8344300560cc',
   },
   {
     title: 'Batman',
     url: 'Batty.com',
+    genre: 'genre',
     likes: 8,
+    user: dummyUser,
     id: '5f68b0d8cefe0a32f01fb239',
   },
 ];
-
-const nonExistingId = async () => {
-  const movie = new Movie({ title: 'willremovethissoon', url: 'temp.com' });
-  await movie.save();
-  await movie.remove();
-
-  return movie._id.toString();
-};
 
 const moviesInDb = async () => {
   const movies = await Movie.find({});
@@ -35,7 +38,6 @@ const usersInDb = async () => {
 
 module.exports = {
   initialMovies,
-  nonExistingId,
   moviesInDb,
   usersInDb,
 };

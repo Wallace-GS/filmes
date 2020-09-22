@@ -24,23 +24,15 @@ moviesRouter.post('/', async (req, res, next) => {
     user: user._id,
   });
 
-  try {
-    const savedMovie = await movie.save();
-    user.movies = user.movies.concat(savedMovie._id);
-    await user.save();
-    res.status(201).json(savedMovie);
-  } catch (e) {
-    next(e);
-  }
+  const savedMovie = await movie.save();
+  user.movies = user.movies.concat(savedMovie._id);
+  await user.save();
+  res.status(201).json(savedMovie);
 });
 
 moviesRouter.delete('/:id', async (req, res, next) => {
-  try {
-    await Movie.findByIdAndRemove(req.params.id);
-    res.status(204).end();
-  } catch (e) {
-    next(e);
-  }
+  await Movie.findByIdAndRemove(req.params.id);
+  res.status(204).end();
 });
 
 moviesRouter.put('/:id', async (req, res, next) => {
@@ -49,14 +41,11 @@ moviesRouter.put('/:id', async (req, res, next) => {
   const movie = {
     likes: body.likes,
   };
-  try {
-    const updatedMovie = await Movie.findByIdAndUpdate(req.params.id, movie, {
-      new: true,
-    });
-    res.json(updatedMovie);
-  } catch (e) {
-    next(e);
-  }
+
+  const updatedMovie = await Movie.findByIdAndUpdate(req.params.id, movie, {
+    new: true,
+  });
+  res.json(updatedMovie);
 });
 
 module.exports = moviesRouter;
