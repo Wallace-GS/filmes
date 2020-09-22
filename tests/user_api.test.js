@@ -94,7 +94,7 @@ describe('when there is initially one user in db', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/);
 
-    expect(result.body).toContain('password is required');
+    expect(result.body.error).toContain('password is required');
 
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toHaveLength(usersAtStart.length);
@@ -115,7 +115,7 @@ describe('when there is initially one user in db', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/);
 
-    expect(result.body).toContain('at least 4 digits');
+    expect(result.body.error).toContain('at least 4 digits');
 
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toHaveLength(usersAtStart.length);

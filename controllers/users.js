@@ -10,9 +10,12 @@ usersRouter.get('/', async (_, res) => {
 usersRouter.post('/', async (req, res, next) => {
   const body = req.body;
 
-  if (!body.password) return res.status(400).json('password is required');
+  if (!body.password)
+    return res.status(400).json({ error: 'password is required' });
   else if (body.password.length < 4)
-    return res.status(400).json('password must have at least 4 digits');
+    return res
+      .status(400)
+      .json({ error: 'password must have at least 4 digits' });
 
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(body.password, saltRounds);
