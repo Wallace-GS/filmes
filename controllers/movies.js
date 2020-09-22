@@ -1,4 +1,5 @@
 const moviesRouter = require('express').Router();
+const jwt = require('jsonwebtoken');
 const Movie = require('../models/movie');
 const User = require('../models/user');
 
@@ -10,8 +11,14 @@ moviesRouter.get('/', async (_, res) => {
   res.json(movies);
 });
 
-moviesRouter.post('/', async (req, res, next) => {
+moviesRouter.post('/', async (req, res) => {
   const body = req.body;
+  const token = getTokenFrom(req);
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' });
+  }
+  const user = await User.findById(decodedToken.id);
 
   user = await User.findById(body.userId);
 
@@ -30,12 +37,12 @@ moviesRouter.post('/', async (req, res, next) => {
   res.status(201).json(savedMovie);
 });
 
-moviesRouter.delete('/:id', async (req, res, next) => {
+moviesRouter.delete('/:id', async (req, res) => {
   await Movie.findByIdAndRemove(req.params.id);
   res.status(204).end();
 });
 
-moviesRouter.put('/:id', async (req, res, next) => {
+moviesRouter.put('/:id', async (req, res) => {
   const body = req.body;
 
   const movie = {
