@@ -10,4 +10,4 @@
 - [x] Set up user model
 - [x] Set up user router
 - [x] Set up login router
-- [x]
+- [x] Passed all tests
