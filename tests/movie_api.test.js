@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const supertest = require('supertest');
 const helper = require('./test_helper');
 const app = require('../app');
 const api = supertest(app);
 const Movie = require('../models/movie');
-const User = require('../models/user');
+
+const globals = {};
 
 beforeEach(async () => {
   await Movie.deleteMany({});
@@ -14,6 +16,18 @@ beforeEach(async () => {
 
   movieObject = new Movie(helper.initialMovies[1]);
   await movieObject.save();
+
+  const users = await helper.usersInDb();
+  const user = users[0];
+  const userForToken = {
+    username: user.username,
+    id: user.id,
+  };
+
+  const token = jwt.sign(userForToken, process.env.SECRET);
+
+  globals.token = `Bearer ${token}`;
+  globals.user = user;
 });
 
 describe('when there is initially some movies in DB', () => {
@@ -41,19 +55,18 @@ describe('when there is initially some movies in DB', () => {
 
 describe('when a movie is being added', () => {
   test('a valid movie can be added', async () => {
-    const users = await helper.usersInDb();
-    const user = users[0];
     const newMovie = {
       title: 'Daredevil',
       url: 'dare.com',
       genre: 'genre',
       likes: 4,
-      userId: user.id,
+      userId: globals.user.id,
     };
 
     await api
       .post('/api/movies')
       .send(newMovie)
+      .set('Authorization', globals.token)
       .expect(201)
       .expect('Content-Type', /application\/json/);
 
@@ -65,48 +78,54 @@ describe('when a movie is being added', () => {
   });
 
   test('movie without title is not added', async () => {
-    const users = await helper.usersInDb();
-    const user = users[0];
     const newMovie = {
       url: 'antman.com',
       genre: 'genre',
       likes: 2,
-      userId: user.id,
+      userId: globals.user.id,
     };
 
-    await api.post('/api/movies').send(newMovie).expect(400);
+    await api
+      .post('/api/movies')
+      .set('Authorization', globals.token)
+      .send(newMovie)
+      .expect(400);
 
     const moviesAtEnd = await helper.moviesInDb();
     expect(moviesAtEnd).toHaveLength(helper.initialMovies.length);
   });
 
   test('movie without url is not added', async () => {
-    const users = await helper.usersInDb();
-    const user = users[0];
     const newMovie = {
       title: 'Antman',
       genre: 'genre',
       likes: 2,
-      userId: user.id,
+      userId: globals.user.id,
     };
 
-    await api.post('/api/movies').send(newMovie).expect(400);
+    await api
+      .post('/api/movies')
+      .set('Authorization', globals.token)
+      .send(newMovie)
+      .expect(400);
 
     const moviesAtEnd = await helper.moviesInDb();
     expect(moviesAtEnd).toHaveLength(helper.initialMovies.length);
   });
 
   test('movie added without likes property defaults to 0 likes', async () => {
-    const users = await helper.usersInDb();
-    const user = users[0];
     const newMovie = {
       title: 'Robin',
       url: 'sidekick.com',
       genre: 'genre',
-      userId: user.id,
+      userId: globals.user.id,
     };
 
-    await api.post('/api/movies').send(newMovie).expect(201);
+    await api
+      .post('/api/movies')
+      .set('Authorization', globals.token)
+      .send(newMovie)
+      .expect(201);
 
     const moviesAtEnd = await helper.moviesInDb();
     expect(moviesAtEnd[moviesAtEnd.length - 1].likes).toBe(0);
@@ -118,7 +137,10 @@ describe('deletion of a movie', () => {
     const moviesAtStart = await helper.moviesInDb();
     const movieToDelete = moviesAtStart[0];
 
-    await api.delete(`/api/movies/${movieToDelete.id}`).expect(204);
+    await api
+      .delete(`/api/movies/${movieToDelete.id}`)
+      .set('Authorization', globals.token)
+      .expect(204);
 
     const moviesAtEnd = await helper.moviesInDb();
 
@@ -132,7 +154,10 @@ describe('updating likes of a movie', () => {
     const movieToUpdate = moviesAtStart[0];
     movieToUpdate.likes = 11;
 
-    await api.put(`/api/movies/${movieToUpdate.id}`).send(movieToUpdate);
+    await api
+      .put(`/api/movies/${movieToUpdate.id}`)
+      .set('Authorization', 'bearer abc123')
+      .send(movieToUpdate);
 
     const moviesAtEnd = await helper.moviesInDb();
 
