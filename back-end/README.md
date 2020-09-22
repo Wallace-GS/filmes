@@ -1,6 +1,4 @@
-# filmes (server)
-
-![logo](./filmes.png)
+# Filmes (server)
 
 ## Checklist
 
