@@ -4,7 +4,6 @@ const helper = require('./test_helper');
 const app = require('../app');
 const api = supertest(app);
 const Movie = require('../models/movie');
-const logger = require('../utils/logger');
 
 beforeEach(async () => {
   await Movie.deleteMany({});

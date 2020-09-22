@@ -28,8 +28,14 @@ const moviesInDb = async () => {
   return movies.map((movie) => movie.toJSON());
 };
 
+const usersInDb = async () => {
+  const users = await User.find({});
+  return users.map((user) => user.toJSON());
+};
+
 module.exports = {
   initialMovies,
   nonExistingId,
   moviesInDb,
+  usersInDb,
 };
