@@ -40,6 +40,7 @@ moviesRouter.post('/', async (req, res) => {
   const savedMovie = await movie.save();
   user.movies = user.movies.concat(savedMovie._id);
   await user.save();
+
   res.status(201).json(savedMovie);
 });
 

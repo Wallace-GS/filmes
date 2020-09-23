@@ -58,8 +58,9 @@ const App = () => {
   };
   const handleAddMovie = async (e) => {
     e.preventDefault();
-    const returnedMovie = await createMovie(newMovie);
-    setTimeout(() => setMovies(movies.concat(returnedMovie)), 3000);
+    await createMovie(newMovie);
+    const movies = await getAll();
+    setMovies(movies);
 
     setNewMovie({
       title: '',
