@@ -9,7 +9,6 @@ const movieSchema = new mongoose.Schema({
   },
   url: {
     type: String,
-    required: true,
   },
   genre: {
     type: String,

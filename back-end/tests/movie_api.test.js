@@ -95,24 +95,6 @@ describe('when a movie is being added', () => {
     expect(moviesAtEnd).toHaveLength(helper.initialMovies.length);
   });
 
-  test('movie without url is not added', async () => {
-    const newMovie = {
-      title: 'Antman',
-      genre: 'genre',
-      likes: 2,
-      userId: globals.user.id,
-    };
-
-    await api
-      .post('/api/movies')
-      .set('Authorization', globals.token)
-      .send(newMovie)
-      .expect(400);
-
-    const moviesAtEnd = await helper.moviesInDb();
-    expect(moviesAtEnd).toHaveLength(helper.initialMovies.length);
-  });
-
   test('movie added without likes property defaults to 0 likes', async () => {
     const newMovie = {
       title: 'Robin',

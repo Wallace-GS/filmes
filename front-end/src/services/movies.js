@@ -1,7 +1,8 @@
 import axios from 'axios';
 const baseUrl = '/api/movies';
 
-export const getAll = () => {
+export const getAll = async () => {
   const request = axios.get(baseUrl);
-  return request.then((response) => response.data);
+  const response = await request;
+  return response.data;
 };
