@@ -9,7 +9,7 @@ export const Login = ({
   handleLogin,
 }) => (
   <Form onSubmit={handleLogin}>
-    <Form.Group controlId="formGroupUser">
+    <Form.Group>
       <Form.Label>Username</Form.Label>
       <Form.Control
         type="text"
@@ -18,7 +18,7 @@ export const Login = ({
         placeholder="Enter username"
       />
     </Form.Group>
-    <Form.Group controlId="formGroupPassword">
+    <Form.Group>
       <Form.Label>Password</Form.Label>
       <Form.Control
         type="password"
