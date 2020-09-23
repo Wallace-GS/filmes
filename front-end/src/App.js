@@ -4,19 +4,21 @@ import { Form, Button } from 'react-bootstrap';
 import './App.css';
 import { Movie } from './components/Movie';
 import { Notification } from './components/Notification';
+import { Login } from './components/Login';
 import { getAll } from './services/movies';
 import { login } from './services/login';
 
 const App = () => {
   const [movies, setMovies] = useState([]);
+  const [newMovie, setNewMovie] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [user, setUser] = useState(null);
   const [notification, setNotification] = useState({
     title: '',
     message: '',
     show: false,
   });
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     getAll().then((movies) => setMovies(movies));
@@ -46,36 +48,50 @@ const App = () => {
     }
   };
 
+  const handleAddMovie = () => {
+    console.log('adding movie');
+  };
+
+  const handleUsernameChange = ({ target }) => setUsername(target.value);
+  const handlePasswordChange = ({ target }) => setPassword(target.value);
+
+  const movieForm = () => (
+    <Form onSubmit={handleAddMovie}>
+      <Form.Group>
+        <Form.Label>Add To Backlog</Form.Label>
+        <Form.Control
+          value={newMovie}
+          onChange={({ target }) => setNewMovie(target.value)}
+        />
+      </Form.Group>
+      <Button
+        variant="outline-light"
+        type="submit"
+        onMouseDown={(e) => e.preventDefault()}
+      >
+        Add
+      </Button>
+    </Form>
+  );
+
   return (
     <div className="content-wrapper">
-      <h2>Movies</h2>
-      <Form onSubmit={handleLogin}>
-        <Form.Group controlId="formGroupUser">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-            placeholder="Enter username"
-          />
-        </Form.Group>
-        <Form.Group controlId="formGroupPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-            placeholder="Password"
-          />
-        </Form.Group>
-        <Button
-          variant="outline-light"
-          type="submit"
-          onMouseDown={(e) => e.preventDefault()}
-        >
-          Submit
-        </Button>
-      </Form>
+      <h1>Movies</h1>
+      {user === null && (
+        <Login
+          username={username}
+          password={password}
+          handleLogin={handleLogin}
+          handleUsernameChange={handleUsernameChange}
+          handlePasswordChange={handlePasswordChange}
+        />
+      )}
+      {user !== null && (
+        <div>
+          <p>{user.name} - logged in.</p>
+          {movieForm()}
+        </div>
+      )}
       <Movie movies={movies} />
       {notification.show && (
         <Notification notification={notification} reset={notificationHandler} />
