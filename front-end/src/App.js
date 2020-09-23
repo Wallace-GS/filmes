@@ -29,13 +29,16 @@ const App = () => {
     e.preventDefault();
     try {
       const user = await login({ username, password });
-
       setUser(user);
       setUsername('');
       setPassword('');
-      console.log('success');
+      setNotification(() => ({
+        title: 'Success',
+        message: `Welcome, ${user.name}.`,
+        show: true,
+      }));
     } catch (e) {
-      setNotification((notification) => ({
+      setNotification(() => ({
         title: 'Wrong credentials',
         message: 'Invalid username or password.',
         show: true,

@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 export const Notification = ({ notification, reset }) => {
-  const [show, setShow] = useState(notification.show);
-
-  const handleClose = () => setShow(false);
+  const [show] = useState(notification.show);
 
   return (
     <>
