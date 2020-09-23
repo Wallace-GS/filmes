@@ -12,7 +12,7 @@ export const getAll = async () => {
   return response.data;
 };
 
-export const create = async (newObject) => {
+export const createMovie = async (newObject) => {
   const config = {
     headers: { Authorization: token },
   };

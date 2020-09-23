@@ -15,11 +15,21 @@ export const Forms = ({
   <Form onSubmit={handleSubmit}>
     <Form.Group>
       <Form.Label>{labelA}</Form.Label>
-      <Form.Control type={typeA} value={valueA} onChange={handleChangeA} />
+      <Form.Control
+        name={labelA.toLowerCase()}
+        type={typeA}
+        value={valueA}
+        onChange={handleChangeA}
+      />
     </Form.Group>
     <Form.Group>
       <Form.Label>{labelB}</Form.Label>
-      <Form.Control type={typeB} value={valueB} onChange={handleChangeB} />
+      <Form.Control
+        name={labelB.toLowerCase()}
+        type={typeB}
+        value={valueB}
+        onChange={handleChangeB}
+      />
     </Form.Group>
     <Button
       variant="outline-light"

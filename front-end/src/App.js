@@ -3,7 +3,7 @@ import './App.css';
 import { Movie } from './components/Movie';
 import { Notification } from './components/Notification';
 import { Forms } from './components/Forms';
-import { getAll, create, setToken } from './services/movies';
+import { getAll, createMovie, setToken } from './services/movies';
 import { login } from './services/login';
 
 const App = () => {
@@ -53,10 +53,17 @@ const App = () => {
   const handleUsernameChange = ({ target }) => setUsername(target.value);
   const handlePasswordChange = ({ target }) => setPassword(target.value);
 
-  const handleTitleChange = ({ target }) => setNewMovie(target.value);
-  const handleGenreChange = ({ target }) => setNewMovie(target.value);
-  const handleAddMovie = () => {
-    create(newMovie);
+  const handleNewMovieChange = ({ target }) => {
+    console.log(target.name);
+    setNewMovie({ ...newMovie, [target.name]: target.value });
+  };
+  const handleAddMovie = (e) => {
+    e.preventDefault();
+    createMovie(newMovie);
+    setNewMovie({
+      title: '',
+      genre: '',
+    });
   };
 
   return (
@@ -85,9 +92,9 @@ const App = () => {
             typeB="text"
             labelA="Title"
             labelB="Genre"
-            handleSubmit={handleLogin}
-            handleChangeA={handleTitleChange}
-            handleChangeB={handleGenreChange}
+            handleSubmit={handleAddMovie}
+            handleChangeA={handleNewMovieChange}
+            handleChangeB={handleNewMovieChange}
           />
         </>
       )}
