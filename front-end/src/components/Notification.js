@@ -1,22 +1,13 @@
-import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import React from 'react';
+import { Alert } from 'react-bootstrap';
 
 export const Notification = ({ notification, reset }) => {
-  const [show] = useState(notification.show);
-
+  setTimeout(() => reset(), 3000);
   return (
-    <>
-      <Modal show={show} onHide={reset}>
-        <Modal.Header closeButton>
-          <Modal.Title>{notification.title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{notification.message}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={reset}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+    <div className="alert">
+      <Alert variant={notification.type} onClose={reset} dismissible>
+        <p>{notification.message}</p>
+      </Alert>
+    </div>
   );
 };

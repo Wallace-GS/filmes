@@ -55,6 +55,7 @@ const App = () => {
         title: 'Wrong credentials',
         message: 'Invalid username or password.',
         show: true,
+        type: 'danger',
       }));
     }
   };
@@ -76,6 +77,7 @@ const App = () => {
       title: 'Success',
       message: `Added movie: ${newMovie.title}`,
       show: true,
+      type: 'success',
     }));
     setNewMovie({
       title: '',
@@ -86,19 +88,6 @@ const App = () => {
   return (
     <div className="content-wrapper">
       <h1>Movies</h1>
-      {user === null && (
-        <Forms
-          valueA={username}
-          valueB={password}
-          typeA="text"
-          typeB="password"
-          labelA="Username"
-          labelB="Password"
-          handleSubmit={handleLogin}
-          handleChangeA={handleUsernameChange}
-          handleChangeB={handlePasswordChange}
-        />
-      )}
       {user !== null && (
         <>
           <p>{user.name} - logged in.</p>
@@ -118,10 +107,24 @@ const App = () => {
           />
         </>
       )}
-      <Movie movies={movies} />
+      {user === null && (
+        <Forms
+          valueA={username}
+          valueB={password}
+          typeA="text"
+          typeB="password"
+          labelA="Username"
+          labelB="Password"
+          handleSubmit={handleLogin}
+          handleChangeA={handleUsernameChange}
+          handleChangeB={handlePasswordChange}
+        />
+      )}
       {notification.show && (
         <Notification notification={notification} reset={notificationHandler} />
       )}
+
+      <Movie movies={movies} />
     </div>
   );
 };
