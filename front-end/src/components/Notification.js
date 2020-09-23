@@ -10,9 +10,9 @@ export const Notification = ({ notification, reset }) => {
     <>
       <Modal show={show} onHide={reset}>
         <Modal.Header closeButton>
-          <Modal.Title>Invalid Credentials</Modal.Title>
+          <Modal.Title>{notification.title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Wrong username or password.</Modal.Body>
+        <Modal.Body>{notification.message}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={reset}>
             Close
