@@ -54,12 +54,13 @@ const App = () => {
   const handlePasswordChange = ({ target }) => setPassword(target.value);
 
   const handleNewMovieChange = ({ target }) => {
-    console.log(target.name);
     setNewMovie({ ...newMovie, [target.name]: target.value });
   };
-  const handleAddMovie = (e) => {
+  const handleAddMovie = async (e) => {
     e.preventDefault();
-    createMovie(newMovie);
+    const returnedMovie = await createMovie(newMovie);
+    setTimeout(() => setMovies(movies.concat(returnedMovie)), 3000);
+
     setNewMovie({
       title: '',
       genre: '',
