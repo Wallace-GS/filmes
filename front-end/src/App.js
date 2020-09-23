@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Button } from 'react-bootstrap';
 import './App.css';
 import { Movie } from './components/Movie';
 import { Notification } from './components/Notification';
@@ -25,23 +26,30 @@ const App = () => {
     getAll().then((movies) => setMovies(movies));
   }, []);
 
+  useEffect(() => {
+    const loggedUser = window.localStorage.getItem('loggedFilmesUser');
+    if (loggedUser) {
+      const user = JSON.parse(loggedUser);
+      setUser(user);
+      setToken(user.token);
+    }
+  }, []);
+
   const notificationHandler = () =>
     setNotification({ title: '', message: '', show: false });
 
+  const handleUsernameChange = ({ target }) => setUsername(target.value);
+  const handlePasswordChange = ({ target }) => setPassword(target.value);
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const user = await login({ username, password });
 
+      window.localStorage.setItem('loggedFilmesUser', JSON.stringify(user));
       setToken(user.token);
       setUser(user);
       setUsername('');
       setPassword('');
-      setNotification(() => ({
-        title: 'Success',
-        message: `Welcome, ${user.name}.`,
-        show: true,
-      }));
     } catch (e) {
       setNotification(() => ({
         title: 'Wrong credentials',
@@ -50,8 +58,10 @@ const App = () => {
       }));
     }
   };
-  const handleUsernameChange = ({ target }) => setUsername(target.value);
-  const handlePasswordChange = ({ target }) => setPassword(target.value);
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedFilmesUser');
+    setUser(null);
+  };
 
   const handleNewMovieChange = ({ target }) => {
     setNewMovie({ ...newMovie, [target.name]: target.value });
@@ -62,6 +72,11 @@ const App = () => {
     const movies = await getAll();
     setMovies(movies);
 
+    setNotification(() => ({
+      title: 'Success',
+      message: `Added movie: ${newMovie.title}`,
+      show: true,
+    }));
     setNewMovie({
       title: '',
       genre: '',
@@ -87,6 +102,9 @@ const App = () => {
       {user !== null && (
         <>
           <p>{user.name} - logged in.</p>
+          <Button onClick={handleLogout} variant="outline-danger">
+            Logout
+          </Button>
           <Forms
             valueA={newMovie.title}
             valueB={newMovie.genre}
