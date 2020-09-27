@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
 import './App.css';
 import { Movie } from './components/Movie';
 import { Notification } from './components/Notification';
@@ -14,6 +13,7 @@ const App = () => {
     title: '',
     genre: '',
   });
+  const [sortBy, setSortBy] = useState('recent');
   const [loginVisible, setLoginVisible] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
   const [username, setUsername] = useState('');
@@ -41,6 +41,8 @@ const App = () => {
   const handleLoginVisible = () => setLoginVisible(!loginVisible);
   const handleFormVisible = () => setFormVisible(!formVisible);
 
+  const handleSort = (sort) => setSortBy(sort);
+
   const notificationHandler = () =>
     setNotification({ title: '', message: '', show: false });
 
@@ -56,6 +58,7 @@ const App = () => {
       setUser(user);
       setUsername('');
       setPassword('');
+      setLoginVisible(false);
     } catch (e) {
       setNotification(() => ({
         title: 'Wrong credentials',
@@ -96,8 +99,11 @@ const App = () => {
       <Menu
         user={user}
         loginVisible={loginVisible}
+        formVisible={formVisible}
+        handleSort={handleSort}
         handleLoginVisible={handleLoginVisible}
         handleFormVisible={handleFormVisible}
+        handleLogout={handleLogout}
       />
       {loginVisible && (
         <Forms
@@ -114,10 +120,6 @@ const App = () => {
       )}
       {formVisible && (
         <>
-          <p>{user.name} - logged in.</p>
-          <Button onClick={handleLogout} variant="outline-danger">
-            Logout
-          </Button>
           <Forms
             valueA={newMovie.title}
             valueB={newMovie.genre}
@@ -136,7 +138,7 @@ const App = () => {
         <Notification notification={notification} reset={notificationHandler} />
       )}
 
-      <Movie movies={movies} />
+      <Movie movies={movies} sortBy={sortBy} />
     </div>
   );
 };

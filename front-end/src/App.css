@@ -31,8 +31,8 @@ html {
   justify-content: space-between;
   padding: 0.3rem;
   width: 100%;
-  background-color: #343a40;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 #navbar ul {
@@ -41,19 +41,29 @@ html {
 }
 
 #navbar li {
-  padding-top: 1rem;
+  margin-top: 0.75rem;
+  margin-left: 2rem;
   font-weight: bold;
 }
 
 #navbar li:last-child {
-  padding-right: 4rem;
+  margin-right: 4rem;
+}
+
+#dropdown {
+  color: white;
+  padding: 0;
 }
 
 .brand {
   font-family: 'Cookie';
   font-size: 30px;
-  padding: 1rem 0;
   padding-left: 4rem;
+}
+
+.separator {
+  margin: 0 2rem;
+  padding-top: 1rem;
 }
 
 .nav-links {

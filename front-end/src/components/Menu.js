@@ -1,10 +1,14 @@
 import React from 'react';
+import { NavDropdown } from 'react-bootstrap';
 
 export const Menu = ({
   user,
   loginVisible,
+  formVisible,
+  handleSort,
   handleLoginVisible,
   handleFormVisible,
+  handleLogout,
 }) => {
   if (!user) {
     return (
@@ -24,11 +28,45 @@ export const Menu = ({
 
   return (
     <nav id="navbar">
-      <span className="brand">filmes</span>
+      <div>
+        <span className="brand">filmes</span>
+      </div>
       <ul>
-        <li onClick={handleFormVisible} className="nav-links">
-          Logout
-        </li>
+        {!formVisible && (
+          <>
+            <li onClick={handleFormVisible} className="nav-links">
+              Add Movie
+            </li>
+            <li>
+              <NavDropdown title="Sort By" id="dropdown">
+                <NavDropdown.Item onSelect={() => handleSort('likes')}>
+                  Likes
+                </NavDropdown.Item>
+                <NavDropdown.Item onSelect={() => handleSort('recent')}>
+                  Recent
+                </NavDropdown.Item>
+              </NavDropdown>
+            </li>
+            <li
+              className="nav-links"
+              onClick={handleLogout}
+              style={{ color: 'red' }}
+            >
+              Logout
+            </li>
+          </>
+        )}
+        {formVisible && (
+          <>
+            <li
+              className="nav-links"
+              onClick={handleFormVisible}
+              style={{ color: 'red', fontWeight: 'normal' }}
+            >
+              Cancel
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
