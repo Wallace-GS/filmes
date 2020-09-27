@@ -120,26 +120,6 @@ describe('when there is initially one user in db', () => {
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toHaveLength(usersAtStart.length);
   });
-
-  test('creation fails with proper statuscode and message if name is missing', async () => {
-    const usersAtStart = await helper.usersInDb();
-
-    const newUser = {
-      username: 'root1',
-      password: 'salainen',
-    };
-
-    const result = await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
-      .expect('Content-Type', /application\/json/);
-
-    expect(result.body.error).toContain('`name` is required');
-
-    const usersAtEnd = await helper.usersInDb();
-    expect(usersAtEnd).toHaveLength(usersAtStart.length);
-  });
 });
 
 afterAll(() => {

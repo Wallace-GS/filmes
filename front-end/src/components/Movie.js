@@ -12,7 +12,7 @@ export const Movie = ({ movies, sortBy }) => {
         <td>{movie.genre}</td>
         <td>{movie.user.username}</td>
         <td>{new Date(movie.date).toLocaleDateString()}</td>
-        <td>{movie.likes}</td>
+        {/* <td>{movie.likes}</td> */}
       </tr>
     ));
   } else if (sortBy === 'likes') {
@@ -23,7 +23,7 @@ export const Movie = ({ movies, sortBy }) => {
         <td>{movie.genre}</td>
         <td>{movie.user.username}</td>
         <td>{new Date(movie.date).toLocaleDateString()}</td>
-        <td>{movie.likes}</td>
+        {/* <td>{movie.likes}</td> */}
       </tr>
     ));
   }
@@ -37,7 +37,7 @@ export const Movie = ({ movies, sortBy }) => {
             <th>Genre</th>
             <th>Added By</th>
             <th>Date Added</th>
-            <th>Likes</th>
+            {/* <th>Likes</th> */}
           </tr>
         </thead>
         <tbody>{listMovies}</tbody>

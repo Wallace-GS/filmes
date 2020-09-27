@@ -24,6 +24,10 @@ html {
   color: #fff;
 }
 
+h1 {
+  font-size: 2rem;
+}
+
 #navbar {
   display: flex;
   top: 0;

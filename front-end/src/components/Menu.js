@@ -1,26 +1,50 @@
 import React from 'react';
-import { NavDropdown } from 'react-bootstrap';
+// import { NavDropdown } from 'react-bootstrap';
 
 export const Menu = ({
   user,
   loginVisible,
   formVisible,
-  handleSort,
+  registerVisible,
+  // handleSort,
   handleLoginVisible,
   handleFormVisible,
+  handleRegisterVisible,
   handleLogout,
 }) => {
   if (!user) {
     return (
       <nav id="navbar">
-        <span className="brand">filmes</span>
+        <span className="brand">filmes | (demo)</span>
         <ul>
-          <li onClick={handleLoginVisible} className="nav-links">
-            {!loginVisible && 'Login'}
-            {loginVisible && (
-              <span style={{ color: 'red', fontWeight: 'normal' }}>Cancel</span>
-            )}
-          </li>
+          {!loginVisible && !registerVisible && (
+            <>
+              <li onClick={handleLoginVisible} className="nav-links">
+                Login
+              </li>
+              <li onClick={handleRegisterVisible} className="nav-links">
+                Register
+              </li>
+            </>
+          )}
+          {loginVisible && (
+            <li
+              className="nav-links"
+              onClick={handleLoginVisible}
+              style={{ color: 'red', fontWeight: 'normal' }}
+            >
+              Cancel
+            </li>
+          )}
+          {registerVisible && (
+            <li
+              className="nav-links"
+              onClick={handleRegisterVisible}
+              style={{ color: 'red', fontWeight: 'normal' }}
+            >
+              Cancel
+            </li>
+          )}
         </ul>
       </nav>
     );
@@ -29,7 +53,7 @@ export const Menu = ({
   return (
     <nav id="navbar">
       <div>
-        <span className="brand">filmes</span>
+        <span className="brand">filmes | (demo)</span>
       </div>
       <ul>
         {!formVisible && (
@@ -37,7 +61,7 @@ export const Menu = ({
             <li onClick={handleFormVisible} className="nav-links">
               Add Movie
             </li>
-            <li>
+            {/* <li>
               <NavDropdown title="Sort By" id="dropdown">
                 <NavDropdown.Item onSelect={() => handleSort('likes')}>
                   Likes
@@ -46,7 +70,7 @@ export const Menu = ({
                   Recent
                 </NavDropdown.Item>
               </NavDropdown>
-            </li>
+            </li> */}
             <li
               className="nav-links"
               onClick={handleLogout}
@@ -57,15 +81,13 @@ export const Menu = ({
           </>
         )}
         {formVisible && (
-          <>
-            <li
-              className="nav-links"
-              onClick={handleFormVisible}
-              style={{ color: 'red', fontWeight: 'normal' }}
-            >
-              Cancel
-            </li>
-          </>
+          <li
+            className="nav-links"
+            onClick={handleFormVisible}
+            style={{ color: 'red', fontWeight: 'normal' }}
+          >
+            Cancel
+          </li>
         )}
       </ul>
     </nav>

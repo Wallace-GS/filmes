@@ -5,6 +5,7 @@ import { Notification } from './components/Notification';
 import { Forms } from './components/Forms';
 import { getAll, createMovie, setToken } from './services/movies';
 import { login } from './services/login';
+import { register } from './services/register';
 import { Menu } from './components/Menu';
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
   });
   const [sortBy, setSortBy] = useState('recent');
   const [loginVisible, setLoginVisible] = useState(false);
+  const [registerVisible, setRegisterVisible] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -39,12 +41,13 @@ const App = () => {
   }, []);
 
   const handleLoginVisible = () => setLoginVisible(!loginVisible);
+  const handleRegisterVisible = () => setRegisterVisible(!registerVisible);
   const handleFormVisible = () => setFormVisible(!formVisible);
 
   const handleSort = (sort) => setSortBy(sort);
 
   const notificationHandler = () =>
-    setNotification({ title: '', message: '', show: false });
+    setNotification({ message: '', show: false });
 
   const handleUsernameChange = ({ target }) => setUsername(target.value);
   const handlePasswordChange = ({ target }) => setPassword(target.value);
@@ -56,12 +59,16 @@ const App = () => {
       window.localStorage.setItem('loggedFilmesUser', JSON.stringify(user));
       setToken(user.token);
       setUser(user);
+      setNotification(() => ({
+        message: `Welcome, ${username}.`,
+        show: true,
+        type: 'success',
+      }));
       setUsername('');
       setPassword('');
       setLoginVisible(false);
     } catch (e) {
       setNotification(() => ({
-        title: 'Wrong credentials',
         message: 'Invalid username or password.',
         show: true,
         type: 'danger',
@@ -71,6 +78,33 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedFilmesUser');
     setUser(null);
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      await register({ username, password });
+      const user = await login({ username, password });
+
+      window.localStorage.setItem('loggedFilmesUser', JSON.stringify(user));
+      setToken(user.token);
+      setUser(user);
+      setNotification(() => ({
+        message: `Registration successful. Welcome, ${username}.`,
+        show: true,
+        type: 'success',
+      }));
+      setUsername('');
+      setPassword('');
+      setRegisterVisible(false);
+    } catch (e) {
+      console.log(e);
+      setNotification(() => ({
+        message: `Error. Please try another username which meets the requirements.`,
+        show: true,
+        type: 'danger',
+      }));
+    }
   };
 
   const handleNewMovieChange = ({ target }) => {
@@ -99,27 +133,50 @@ const App = () => {
       <Menu
         user={user}
         loginVisible={loginVisible}
+        registerVisible={registerVisible}
         formVisible={formVisible}
         handleSort={handleSort}
         handleLoginVisible={handleLoginVisible}
+        handleRegisterVisible={handleRegisterVisible}
         handleFormVisible={handleFormVisible}
         handleLogout={handleLogout}
       />
       {loginVisible && (
-        <Forms
-          valueA={username}
-          valueB={password}
-          typeA="text"
-          typeB="password"
-          labelA="Username"
-          labelB="Password"
-          handleSubmit={handleLogin}
-          handleChangeA={handleUsernameChange}
-          handleChangeB={handlePasswordChange}
-        />
+        <>
+          <h1>Login</h1>
+          <Forms
+            valueA={username}
+            valueB={password}
+            typeA="text"
+            typeB="password"
+            labelA="Username"
+            labelB="Password"
+            handleSubmit={handleLogin}
+            handleChangeA={handleUsernameChange}
+            handleChangeB={handlePasswordChange}
+          />
+        </>
+      )}
+      {registerVisible && (
+        <>
+          <h1>Register</h1>
+          <p>* Both username and password must be 4 characters or longer.</p>
+          <Forms
+            valueA={username}
+            valueB={password}
+            typeA="text"
+            typeB="password"
+            labelA="Username"
+            labelB="Password"
+            handleSubmit={handleRegister}
+            handleChangeA={handleUsernameChange}
+            handleChangeB={handlePasswordChange}
+          />
+        </>
       )}
       {formVisible && (
         <>
+          <h1>Add Movie</h1>
           <Forms
             valueA={newMovie.title}
             valueB={newMovie.genre}
