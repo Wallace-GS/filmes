@@ -12,7 +12,7 @@ export const Forms = ({
   handleChangeB,
   handleSubmit,
 }) => (
-  <Form onSubmit={handleSubmit}>
+  <Form className="forms" onSubmit={handleSubmit}>
     <Form.Group>
       <Form.Label>{labelA}</Form.Label>
       <Form.Control

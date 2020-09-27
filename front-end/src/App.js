@@ -14,6 +14,8 @@ const App = () => {
     title: '',
     genre: '',
   });
+  const [loginVisible, setLoginVisible] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -35,6 +37,9 @@ const App = () => {
       setToken(user.token);
     }
   }, []);
+
+  const handleLoginVisible = () => setLoginVisible(!loginVisible);
+  const handleFormVisible = () => setFormVisible(!formVisible);
 
   const notificationHandler = () =>
     setNotification({ title: '', message: '', show: false });
@@ -88,8 +93,13 @@ const App = () => {
 
   return (
     <div className="content-wrapper">
-      <Menu />
-      {user === null && (
+      <Menu
+        user={user}
+        loginVisible={loginVisible}
+        handleLoginVisible={handleLoginVisible}
+        handleFormVisible={handleFormVisible}
+      />
+      {loginVisible && (
         <Forms
           valueA={username}
           valueB={password}
@@ -102,7 +112,7 @@ const App = () => {
           handleChangeB={handlePasswordChange}
         />
       )}
-      {user !== null && (
+      {formVisible && (
         <>
           <p>{user.name} - logged in.</p>
           <Button onClick={handleLogout} variant="outline-danger">

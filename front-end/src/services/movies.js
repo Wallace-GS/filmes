@@ -1,7 +1,8 @@
 import axios from 'axios';
-const baseUrl = '/api/movies';
 
+const baseUrl = '/api/movies';
 let token = null;
+
 export const setToken = (newToken) => {
   token = `bearer ${newToken}`;
 };
