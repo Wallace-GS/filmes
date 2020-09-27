@@ -6,6 +6,7 @@ import { Notification } from './components/Notification';
 import { Forms } from './components/Forms';
 import { getAll, createMovie, setToken } from './services/movies';
 import { login } from './services/login';
+import { Menu } from './components/Menu';
 
 const App = () => {
   const [movies, setMovies] = useState([]);
@@ -87,7 +88,20 @@ const App = () => {
 
   return (
     <div className="content-wrapper">
-      <h1>Movies</h1>
+      <Menu />
+      {user === null && (
+        <Forms
+          valueA={username}
+          valueB={password}
+          typeA="text"
+          typeB="password"
+          labelA="Username"
+          labelB="Password"
+          handleSubmit={handleLogin}
+          handleChangeA={handleUsernameChange}
+          handleChangeB={handlePasswordChange}
+        />
+      )}
       {user !== null && (
         <>
           <p>{user.name} - logged in.</p>
@@ -107,19 +121,7 @@ const App = () => {
           />
         </>
       )}
-      {user === null && (
-        <Forms
-          valueA={username}
-          valueB={password}
-          typeA="text"
-          typeB="password"
-          labelA="Username"
-          labelB="Password"
-          handleSubmit={handleLogin}
-          handleChangeA={handleUsernameChange}
-          handleChangeB={handlePasswordChange}
-        />
-      )}
+
       {notification.show && (
         <Notification notification={notification} reset={notificationHandler} />
       )}

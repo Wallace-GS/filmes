@@ -1,9 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
+
 /* resets */
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
 }
 
 /* Utilities */
@@ -14,6 +24,48 @@ html {
   color: #fff;
 }
 
+#navbar {
+  display: flex;
+  top: 0;
+  color: #fff;
+  justify-content: space-between;
+  padding: 0.3rem;
+  width: 100%;
+  background-color: #343a40;
+  margin-bottom: 3rem;
+}
+
+#navbar ul {
+  display: flex;
+  align-items: center;
+}
+
+#navbar li {
+  padding-top: 1rem;
+  font-weight: bold;
+}
+
+#navbar li:last-child {
+  padding-right: 4rem;
+}
+
+.brand {
+  font-family: 'Cookie';
+  font-size: 30px;
+  padding: 1rem 0;
+  padding-left: 4rem;
+}
+
+.nav-links {
+  background: none !important;
+  border: none;
+  cursor: pointer;
+}
+
+.user {
+  font-size: 18px;
+}
+
 .content-wrapper {
   display: flex;
   align-items: center;
@@ -21,19 +73,15 @@ html {
   flex-direction: column;
 }
 
-/* table */
-
 .movie-table {
   height: 70%;
   width: 70%;
 }
 
-/* modal */
 .modal {
   color: #000;
 }
 
-/* alert */
 .alert {
   position: fixed;
   top: 0px;
