@@ -5,11 +5,13 @@ export const Menu = ({
   user,
   loginVisible,
   formVisible,
+  submissionsVisible,
   registerVisible,
-  handleSort,
+  // handleSort,
   handleLoginVisible,
   handleFormVisible,
   handleRegisterVisible,
+  handleSubmissionsVisible,
   handleLogout,
 }) => {
   if (!user) {
@@ -56,12 +58,12 @@ export const Menu = ({
         <span className="brand">filmes | (demo)</span>
       </div>
       <ul>
-        {!formVisible && (
+        {!formVisible && !submissionsVisible && (
           <>
             <li onClick={handleFormVisible} className="nav-links">
               Add Movie
             </li>
-            <li onClick={() => handleSort('user')} className="nav-links">
+            <li onClick={handleSubmissionsVisible} className="nav-links">
               Submissions
             </li>
             {/* <li>
@@ -87,6 +89,15 @@ export const Menu = ({
           <li
             className="nav-links"
             onClick={handleFormVisible}
+            style={{ color: 'red', fontWeight: 'normal' }}
+          >
+            Cancel
+          </li>
+        )}
+        {submissionsVisible && (
+          <li
+            className="nav-links"
+            onClick={handleSubmissionsVisible}
             style={{ color: 'red', fontWeight: 'normal' }}
           >
             Cancel

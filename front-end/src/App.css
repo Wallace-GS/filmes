@@ -110,3 +110,13 @@ h1 {
 .forms {
   margin-bottom: 3rem;
 }
+
+.icon {
+  color: #be0000;
+  margin-right: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.text-align {
+  text-align: center;
+}

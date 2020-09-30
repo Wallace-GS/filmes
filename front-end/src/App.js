@@ -18,6 +18,7 @@ const App = () => {
   const [loginVisible, setLoginVisible] = useState(false);
   const [registerVisible, setRegisterVisible] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
+  const [submissionsVisible, setSubmissionsVisible] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -43,6 +44,11 @@ const App = () => {
   const handleLoginVisible = () => setLoginVisible(!loginVisible);
   const handleRegisterVisible = () => setRegisterVisible(!registerVisible);
   const handleFormVisible = () => setFormVisible(!formVisible);
+  const handleSubmissionsVisible = () => {
+    setSubmissionsVisible(!submissionsVisible);
+    const sort = sortBy === 'user' ? 'recent' : 'user';
+    setSortBy(sort);
+  };
 
   const handleSort = (sort) => setSortBy(sort);
 
@@ -100,7 +106,6 @@ const App = () => {
       setPassword('');
       setRegisterVisible(false);
     } catch (e) {
-      console.log(e);
       setNotification(() => ({
         message: `Error. Please try another username which meets the requirements.`,
         show: true,
@@ -137,10 +142,12 @@ const App = () => {
         loginVisible={loginVisible}
         registerVisible={registerVisible}
         formVisible={formVisible}
-        handleSort={handleSort}
+        submissionsVisible={submissionsVisible}
+        // handleSort={handleSort}
         handleLoginVisible={handleLoginVisible}
         handleRegisterVisible={handleRegisterVisible}
         handleFormVisible={handleFormVisible}
+        handleSubmissionsVisible={handleSubmissionsVisible}
         handleLogout={handleLogout}
       />
       {loginVisible && (
@@ -197,7 +204,12 @@ const App = () => {
         <Notification notification={notification} reset={notificationHandler} />
       )}
 
-      <Movie movies={movies} sortBy={sortBy} user={user} />
+      <Movie
+        movies={movies}
+        sortBy={sortBy}
+        user={user}
+        submissionsVisible={submissionsVisible}
+      />
     </div>
   );
 };
