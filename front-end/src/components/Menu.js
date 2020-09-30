@@ -6,7 +6,7 @@ export const Menu = ({
   loginVisible,
   formVisible,
   registerVisible,
-  // handleSort,
+  handleSort,
   handleLoginVisible,
   handleFormVisible,
   handleRegisterVisible,
@@ -60,6 +60,9 @@ export const Menu = ({
           <>
             <li onClick={handleFormVisible} className="nav-links">
               Add Movie
+            </li>
+            <li onClick={() => handleSort('user')} className="nav-links">
+              Submissions
             </li>
             {/* <li>
               <NavDropdown title="Sort By" id="dropdown">

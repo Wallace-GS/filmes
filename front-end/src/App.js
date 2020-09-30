@@ -58,6 +58,7 @@ const App = () => {
 
       window.localStorage.setItem('loggedFilmesUser', JSON.stringify(user));
       setToken(user.token);
+      setSortBy('recent');
       setUser(user);
       setNotification(() => ({
         message: `Welcome, ${username}.`,
@@ -77,6 +78,7 @@ const App = () => {
   };
   const handleLogout = () => {
     window.localStorage.removeItem('loggedFilmesUser');
+    setSortBy('recent');
     setUser(null);
   };
 
@@ -195,7 +197,7 @@ const App = () => {
         <Notification notification={notification} reset={notificationHandler} />
       )}
 
-      <Movie movies={movies} sortBy={sortBy} />
+      <Movie movies={movies} sortBy={sortBy} user={user} />
     </div>
   );
 };

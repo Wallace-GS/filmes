@@ -1,11 +1,12 @@
 import React from 'react';
 import Table from 'react-bootstrap/table';
 
-export const Movie = ({ movies, sortBy }) => {
+export const Movie = ({ movies, sortBy, user }) => {
   let listMovies = [];
+  let temp = [];
 
-  if (sortBy === 'recent') {
-    movies.sort((a, b) => new Date(b.date) - new Date(a.date));
+  if (sortBy === 'likes') {
+    movies.sort((a, b) => b.likes - a.likes);
     listMovies = movies.map((movie) => (
       <tr key={movie.id}>
         <td>{movie.title}</td>
@@ -15,8 +16,20 @@ export const Movie = ({ movies, sortBy }) => {
         {/* <td>{movie.likes}</td> */}
       </tr>
     ));
-  } else if (sortBy === 'likes') {
-    movies.sort((a, b) => b.likes - a.likes);
+  } else if (sortBy === 'user' && user) {
+    temp = movies.filter((movie) => movie.user.username === user.username);
+    listMovies = temp.map((movie) => (
+      <tr key={movie.id}>
+        <td>{movie.title}</td>
+        <td>{movie.genre}</td>
+        <td>{movie.user.username}</td>
+        <td>{new Date(movie.date).toLocaleDateString()}</td>
+        {/* <td>{movie.likes}</td> */}
+      </tr>
+    ));
+    console.log(listMovies);
+  } else if (sortBy === 'recent') {
+    movies.sort((a, b) => new Date(b.date) - new Date(a.date));
     listMovies = movies.map((movie) => (
       <tr key={movie.id}>
         <td>{movie.title}</td>
