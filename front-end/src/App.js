@@ -3,10 +3,10 @@ import './App.css';
 import { Movie } from './components/Movie';
 import { Notification } from './components/Notification';
 import { Forms } from './components/Forms';
-import { getAll, createMovie, setToken } from './services/movies';
+import { Menu } from './components/Menu';
+import { getAll, createMovie, setToken, deleteMovie } from './services/movies';
 import { login } from './services/login';
 import { register } from './services/register';
-import { Menu } from './components/Menu';
 
 const App = () => {
   const [movies, setMovies] = useState([]);
@@ -50,7 +50,7 @@ const App = () => {
     setSortBy(sort);
   };
 
-  const handleSort = (sort) => setSortBy(sort);
+  // const handleSort = (sort) => setSortBy(sort);
 
   const notificationHandler = () =>
     setNotification({ message: '', show: false });
@@ -134,6 +134,18 @@ const App = () => {
       genre: '',
     });
   };
+  const handleDeleteMovie = async (movie) => {
+    await deleteMovie(movie.id);
+    const movies = await getAll();
+    setMovies(movies);
+
+    setNotification(() => ({
+      title: 'Success',
+      message: `Deleted movie: ${movie.title}`,
+      show: true,
+      type: 'danger',
+    }));
+  };
 
   return (
     <div className="content-wrapper">
@@ -208,6 +220,7 @@ const App = () => {
         movies={movies}
         sortBy={sortBy}
         user={user}
+        handleDelete={handleDeleteMovie}
         submissionsVisible={submissionsVisible}
       />
     </div>

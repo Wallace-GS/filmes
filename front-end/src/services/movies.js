@@ -21,3 +21,11 @@ export const createMovie = async (newObject) => {
   const response = await axios.post(baseUrl, newObject, config);
   return response.data;
 };
+
+export const deleteMovie = async (movieId) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  await axios.delete(`${baseUrl}/${movieId}`, config);
+};

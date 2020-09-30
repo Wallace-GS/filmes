@@ -3,7 +3,13 @@ import Table from 'react-bootstrap/table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
-export const Movie = ({ movies, sortBy, user, submissionsVisible }) => {
+export const Movie = ({
+  movies,
+  sortBy,
+  user,
+  submissionsVisible,
+  handleDelete,
+}) => {
   let listMovies = [];
   let temp = [];
 
@@ -23,9 +29,13 @@ export const Movie = ({ movies, sortBy, user, submissionsVisible }) => {
     listMovies = temp.map((movie) => (
       <tr key={movie.id}>
         <td>
-          <span className="icon">
+          <button
+            type="submit"
+            onClick={() => handleDelete(movie)}
+            className="icon"
+          >
             <FontAwesomeIcon icon={faTimesCircle} />
-          </span>
+          </button>
           {movie.title}
         </td>
         <td>{movie.genre}</td>

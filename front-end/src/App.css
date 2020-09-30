@@ -115,6 +115,9 @@ h1 {
   color: #be0000;
   margin-right: 0.5rem;
   font-size: 0.75rem;
+  background: none !important;
+  border: none;
+  cursor: pointer;
 }
 
 .text-align {
