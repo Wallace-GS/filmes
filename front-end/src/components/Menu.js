@@ -64,7 +64,7 @@ export const Menu = ({
               Add Movie
             </li>
             <li onClick={handleSubmissionsVisible} className="nav-links">
-              Submissions
+              My Submissions
             </li>
             {/* <li>
               <NavDropdown title="Sort By" id="dropdown">
